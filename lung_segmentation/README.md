@@ -106,6 +106,8 @@ If not specified, the defalut path for loading is '../weights/Segmentation_resne
 Samples images (n=20 images) and the related masks from NIH ShenZhen X-ray images are provided for users in the data folder for train and inference example. Samples for CSV files are also provided.
 The whole data set can be downloaded from (https://openi.nlm.nih.gov/faq#collection) 
 
+For any new data set, please copy images and masks to the data folder, then create the related csv files and perform the traing or inference.
+
 ## References
 Please see the below reference for more information:
 [1] S. Jaeger, S. Candemir, S. Antani, Y.-X. J. Wáng, P.-X. Lu, and G. Thoma, "Two public chest X-ray datasets for computer-aided screening of pulmonary diseases," 
