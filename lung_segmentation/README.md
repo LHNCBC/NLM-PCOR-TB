@@ -19,11 +19,11 @@ limitations under the License.
 ==============================================================================*/
 
 ## Authors
-Babak Haghighi (babak.haghighi@nih.gov)\
-Karthik Kantipudi (karthik.kantipudi@nih.gov)\
-Ziv Rafael Yaniv (zivrafael.yaniv@nih.gov)\
-Hang Yu (hang.yu@nih.gov)\
-Stefan Jaeger (stefan.jaeger@nih.gov)\
+Babak Haghighi (babak.haghighi@nih.gov)<br/>
+Karthik Kantipudi (karthik.kantipudi@nih.gov)<br/>
+Ziv Rafael Yaniv (zivrafael.yaniv@nih.gov)<br/>
+Hang Yu (hang.yu@nih.gov)<br/>
+Stefan Jaeger (stefan.jaeger@nih.gov)<br/>
 
 ## For questions about the software and research, please contact Dr. Babak Haghighi (babak.haghighi@nih.gov) or Dr. Stefan Jaeger (stefan.jaeger@nih.gov)
 
