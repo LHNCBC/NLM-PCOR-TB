@@ -108,6 +108,7 @@ For any new data set, please copy images and masks to the data folder, then crea
 
 ## References
 Please see the below reference for more information:
+
 [1] S. Jaeger, S. Candemir, S. Antani, Y.-X. J. Wáng, P.-X. Lu, and G. Thoma, "Two public chest X-ray datasets for computer-aided screening of pulmonary diseases," 
 Quantitative imaging in medicine and surgery, vol. 4 (6), p. 475(2014)
 
