@@ -4,6 +4,7 @@
 This directory contains codes and insturction for performing lung segmentation using a UNET model.
 
 /*==============================================================================
+
 Copyright 2022 The PCOR project. All Rights Reserved.
 This  was developed under contract funded by the National Library of Medicine (NLM),
 which is part of the National Institutes of Health, an agency of the Department of Health and Human
