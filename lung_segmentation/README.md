@@ -89,10 +89,13 @@ python inference.py input_csv_path output_prediction_directory --segmnetation_mo
 (3) [optional] --segmnetation_model_path: the path for reading the saved wieghts from the training step to run the inference. 
 If not specified, the defalut path for loading is '../weights/Segmentation_resnet50_UNet.h5'
 
-## Samples images and the related masks from NIH ShenZhen X-ray images are provided for users in the data folder for train and inference example. 
+## Dataset
+
+Samples images and the related masks from NIH ShenZhen X-ray images are provided for users in the data folder for train and inference example. 
 The whole data set can be downloaded from (https://openi.nlm.nih.gov/faq#collection) 
 
-##Please see the below reference for more information:
+## References
+Please see the below reference for more information:
 [1] S. Jaeger, S. Candemir, S. Antani, Y.-X. J. Wáng, P.-X. Lu, and G. Thoma, "Two public chest X-ray datasets for computer-aided screening of pulmonary diseases," 
 Quantitative imaging in medicine and surgery, vol. 4 (6), p. 475(2014)
 
