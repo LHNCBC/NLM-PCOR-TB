@@ -67,10 +67,13 @@ python train.py input_csv_path --lung_segmentation_model_output  model_output_fi
 
 ```
 (1) [required] input_csv_path: the path to input CSV file which contains column names as 'images'and 'masks' where 'images' represents the file path of the image and 'masks' for training
-(2) [optional]--lung_segmentation_model_output: indicates the path to save the output of lung segmentation model (weights).
-If not specified, the defalut path for saving the model is '../weights/Segmentation_resnet50_UNet.h5'
+
+(2) [optional]--lung_segmentation_model_output: indicates the path to save the output of lung segmentation model (weights). If not specified, the defalut path for saving the model is '../weights/Segmentation_resnet50_UNet.h5'
+
 Also, the resulting weight file (*Segmentation_resnet50_UNet.h5*) is available in the weights folder.
+
 The default hyper-parameters for the training are BATCH_SIZE=16, EPOCHS=100 and LEARNING_RATE=0.0001. A user can change and train a model with different hyper-parameter values.
+
 The model was trained on NIH ShenZhen X-ray images (https://openi.nlm.nih.gov/faq#collection)
 NVIDIA Tesla K80 GPU with 24 GB of GDDR5 memory was used for training. 
 
