@@ -36,24 +36,18 @@ For questions about the software and research, please contact Dr. Babak Haghighi
 
 YML file is provided to install neccessary packages for users. Use the terminal or an Anaconda Prompt for the following steps:
 Create the environment from the environment.yml file:
-```
+
 conda env create -f environment.yml
 
-```
-```
-conda env create -f environment.yml 
-
-```
-
-###Activate the new environment: 
+Activate the new environment: 
 
 conda activate myenv
 
-###Verify that the new environment was installed correctly:
+Verify that the new environment was installed correctly:
 
 conda env list
 
-###For more information please see (https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html)
+For more information please see (https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html)
  
 
 ### Using the codes includes two steps: (1) training and (2) inference.
