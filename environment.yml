@@ -1,0 +1,13 @@
+name: CXR-Lungsegmentation
+channels: 
+  - conda-forge
+  - defaults
+
+dependencies:
+  - pip
+  - opencv 
+  - h5py
+  - scikit-image
+  - pip:
+        - tensorflow
+        - segmentation-models==1.0.1 
