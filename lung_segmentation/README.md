@@ -19,6 +19,7 @@ limitations under the License.
 ==============================================================================*/
 
 ## Authors
+
 Babak Haghighi (babak.haghighi@nih.gov)<br/>
 Karthik Kantipudi (karthik.kantipudi@nih.gov)<br/>
 Ziv Rafael Yaniv (zivrafael.yaniv@nih.gov)<br/>
@@ -28,7 +29,7 @@ Stefan Jaeger (stefan.jaeger@nih.gov)<br/>
 ## For questions about the software and research, please contact Dr. Babak Haghighi (babak.haghighi@nih.gov) or Dr. Stefan Jaeger (stefan.jaeger@nih.gov)
 
 
-## YML file is provided to install neccessary packages for users.Use the terminal or an Anaconda Prompt for the following steps:
+## YML file is provided to install neccessary packages for users. Use the terminal or an Anaconda Prompt for the following steps:
 Create the environment from the environment.yml file:
 
 conda env create -f environment.yml
