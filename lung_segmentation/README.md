@@ -27,8 +27,8 @@ limitations under the License.
 
 Babak Haghighi (babak.haghighi@nih.gov)<br/>
 Karthik Kantipudi (karthik.kantipudi@nih.gov)<br/>
-Ziv Rafael Yaniv (zivrafael.yaniv@nih.gov)<br/>
 Hang Yu (hang.yu@nih.gov)<br/>
+Ziv Rafael Yaniv (zivrafael.yaniv@nih.gov)<br/>
 Stefan Jaeger (stefan.jaeger@nih.gov)<br/>
 
 ## Contact information
