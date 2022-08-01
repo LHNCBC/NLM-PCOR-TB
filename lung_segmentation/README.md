@@ -75,6 +75,7 @@ Also, the resulting weight file (*Segmentation_resnet50_UNet.h5*) is available i
 The default hyper-parameters for the training are BATCH_SIZE=16, EPOCHS=100 and LEARNING_RATE=0.0001. A user can change and train a model with different hyper-parameter values.
 
 The model was trained on NIH ShenZhen X-ray images (https://openi.nlm.nih.gov/faq#collection)
+
 NVIDIA Tesla K80 GPU with 24 GB of GDDR5 memory was used for training. 
 
 
@@ -88,7 +89,9 @@ python inference.py input_csv_path output_prediction_directory --segmnetation_mo
 
 ```
 (1) [required] input_csv_path: the path to input CSV file which contains column names as 'images' for inference
+
 (2) [required] output_prediction_directory: the folder for saving the predicted binary images 
+
 (3) [optional] --segmnetation_model_path: the path for reading the saved wieghts from the training step to run the inference. 
 If not specified, the defalut path for loading is '../weights/Segmentation_resnet50_UNet.h5'
 
