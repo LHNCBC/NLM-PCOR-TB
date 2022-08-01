@@ -1,5 +1,6 @@
 
-### Lung Segmentation of Chest-X Ray Images
+## Lung Segmentation of Chest-X Ray Images
+
 This directory contains codes and insturction for performing lung segmentation using a UNET model.
 
 /*==============================================================================
