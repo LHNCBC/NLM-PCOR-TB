@@ -103,7 +103,7 @@ If not specified, the defalut path for loading is '../weights/Segmentation_resne
 
 ## Dataset
 
-Samples images and the related masks from NIH ShenZhen X-ray images are provided for users in the data folder for train and inference example. 
+Samples images (n=20 images) and the related masks from NIH ShenZhen X-ray images are provided for users in the data folder for train and inference example. Samples for CSV files are also provided.
 The whole data set can be downloaded from (https://openi.nlm.nih.gov/faq#collection) 
 
 ## References
