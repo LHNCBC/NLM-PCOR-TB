@@ -80,8 +80,6 @@ Also, the resulting weight file (*Segmentation_resnet50_UNet.h5*) is available i
 
 The default hyper-parameters for the training are BATCH_SIZE=16, EPOCHS=100 and LEARNING_RATE=0.0001. A user can change and train a model with different hyper-parameter values.
 
-The model was trained on NIH ShenZhen X-ray images (https://openi.nlm.nih.gov/faq#collection)
-
 NVIDIA Tesla K80 GPU with 24 GB of GDDR5 memory was used for training. 
 
 
@@ -103,7 +101,7 @@ If not specified, the defalut path for loading is '../weights/Segmentation_resne
 
 ## Dataset
 
-Samples images (n=20 images) and the related masks from NIH ShenZhen X-ray images are provided for users in the data folder for train and inference example. Samples for CSV files are also provided.
+The model was trained on NIH ShenZhen X-ray images. Samples images (n=20 images) and the related masks from NIH ShenZhen X-ray images are provided for users in the data folder for train and inference example. Samples for CSV files are also provided.
 The whole data set can be downloaded from (https://openi.nlm.nih.gov/faq#collection) 
 
 For any new data set, please copy images and masks to the data folder, then create the related csv files and perform the traing or inference.
