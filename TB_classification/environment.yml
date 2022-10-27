@@ -1,0 +1,15 @@
+name: TB-Classification
+channels: 
+  - conda-forge
+  - defaults
+
+dependencies:
+  - pip
+  - opencv 
+  - h5py
+  - pandas
+  - matplotlib 
+  - scikit-image
+  - scikit-learn
+  - pip:
+        - tensorflow
