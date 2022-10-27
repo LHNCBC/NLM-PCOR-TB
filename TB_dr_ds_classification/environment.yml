@@ -1,0 +1,18 @@
+name: dr_ds_tb
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - pip
+  - opencv
+  - h5py
+  - pandas==1.1.5
+  - scikit-image==0.17.2
+  - scikit-learn==0.24.2
+  - simpleitk==2.1.0
+  - pydicom==2.1.2
+  - tensorflow==2.4.1
+  - pip:
+    - segmentation-models==1.0.1
+    - image-classifiers==0.2.2
