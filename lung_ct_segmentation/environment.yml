@@ -1,0 +1,9 @@
+name: ct_lung_segmentation
+
+channels:
+  - defaults
+dependencies:
+  - pip
+  - pip:
+    - nnunet
+

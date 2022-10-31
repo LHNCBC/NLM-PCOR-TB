@@ -1,0 +1,28 @@
+{
+    "LCTSC": {"input_dir": "/input/path/to/LCTSC"},
+    "covid19": {
+        "input_dir": "/input/path/to/covid19",
+        "ct_dir": "ct_directory_name",
+        "seg_dir": "seg_directory_name",
+    },
+    "LUNA16": {
+        "input_dir": "/input/path/to/LUNA16",
+        "ct_dirs_prefix": "subset",
+        "seg_dir": "seg-lungs-LUNA16",
+    },
+    "mdpi": {
+        "input_dir": "/input/path/to/mdpi",
+        "ct_dirs_prefix": "patients_",
+        "ct_filename": "CT.nrrd",
+        "seg_filename": "GMM_LABELS.nrrd",
+    },
+    "NSCLC-Radiomics": {
+        "input_dir": "/input/path/to/NSCLC-Radiomics",
+        "ct_dirs_prefix": "LUNG1-",
+    },
+    "VESSEL12": {
+        "input_dir": "/input/path/to/VESSEL12",
+        "ct_dir": "cts",
+        "seg_dir": "lung_masks",
+    }
+}
