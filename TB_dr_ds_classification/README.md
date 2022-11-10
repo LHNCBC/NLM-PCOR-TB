@@ -127,7 +127,7 @@ Note: More adjustments are possible by changing the global_constants.py file
 
 
 ## Dataset
-The model was trained on [TB Portals](https://tbportals.niaid.nih.gov/download-data), [Shenzen](https://lhncbc.nlm.nih.gov/LHC-downloads/downloads.html), [Montgomery dataset](https://lhncbc.nlm.nih.gov/LHC-downloads/downloads.html) and [TBX11K](https://mmcheng.net/tb/) datasets. CSV file containing sample (n=24 images) file paths from TB Portals data is provided for users in the data folder for train and inference example.
+The model was trained on [TB Portals](https://tbportals.niaid.nih.gov/download-data), [Shenzen](https://openi.nlm.nih.gov/faq#collection), [Montgomery dataset](https://openi.nlm.nih.gov/faq#collection) and [TBX11K](https://mmcheng.net/tb/) datasets. CSV file containing sample (n=24 images) file paths from TB Portals data is provided for users in the data folder for train and inference example.
 
 ## References
 Please see the below reference for more information:
