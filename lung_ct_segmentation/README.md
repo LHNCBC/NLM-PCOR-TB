@@ -117,10 +117,7 @@ export nnUNet_preprocessed="/path/to/nnUNet_preprocessed"
 export RESULTS_FOLDER='/path/to/nnUNet_trained_models'
 ```
 
-Each of the lung/lesion directories for each task must contain a dataset.json file which is generated from the above commands.
-
-
-User can also refer to (this)(https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/dataset_conversion.md) link for any further reference for setting up their databases.
+User can also refer to (this)[https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/dataset_conversion.md] link for any further reference for setting up their databases.
 
 ## Preprocess the CT volumes:
 ```
