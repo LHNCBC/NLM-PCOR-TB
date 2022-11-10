@@ -7,7 +7,7 @@ Copyright 2022 The PCOR project. All Rights Reserved. This was developed under c
 
 ==============================================================================*/
 
-Authors
+## Authors
 Vy Bui (vy.bui@nih.gov)
 Feng Yang (feng.yang2@nih.gov)
 Babak Haghighi (babak.haghighi@nih.gov)
@@ -16,10 +16,10 @@ Karthik Kantipudi (karthik.kantipudi@nih.gov)
 Ziv Rafael Yaniv (zivrafael.yaniv@nih.gov)
 Stefan Jaeger (stefan.jaeger@nih.gov)
 
-Contact information
+## Contact information
 For questions about the software and research, please contact Vy Bui (vy.bui@nih.gov), Ziv Yaniv (ziv.yaniv@nih.gov)  or Dr. Stefan Jaeger (stefan.jaeger@nih.gov)
 
-Setting up virtual environment and installing necessary python packages
+## Setting up virtual environment and installing necessary python packages
 YML file is provided to install neccessary packages for users. Use the terminal or an Anaconda Prompt for the following steps: Create the environment from the environment.yml file:
 
 ```
@@ -38,8 +38,7 @@ conda env list
 
 ### Using the codes includes two parts: (1) Investigating the relationship between radiological and genomic features on drug-resistant TB, drug-sensitive TB prediction and (2) Investigating the associations between radiological and genomic features with the TB treatment period.
 
-(1) Investigating the relationship between radiological and genomic features on drug-resistant TB, drug-sensitive TB prediction
-
+## (1) Investigating the relationship between radiological and genomic features on drug-resistant TB, drug-sensitive TB prediction
 
 Description of arguments:
 usage: F_rad_gen_drds_classification.py 
@@ -103,8 +102,7 @@ python F_rad_gen_drds_classification.py -rad 1 -gen 1 -same 1
 
 
 
-(2) Investigating the associations between radiological and genomic features with the TB treatment period.
-
+## (2) Investigating the associations between radiological and genomic features with the TB treatment period.
 
 Description of arguments:
 usage: F_rad_gen_TP_regression.py 
