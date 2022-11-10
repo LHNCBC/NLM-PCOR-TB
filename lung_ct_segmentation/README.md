@@ -57,7 +57,7 @@ conda env list
 For more information please see (https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html)
 
 
-It deals with training a 2d nnUNet model for lung Segmentation.
+It deals with training a 2d nnUNet model for lung segmentation.
 
 For training lung segmentation models, we use all the available data from the publicly available datasets , i.e,
 [LCTSC](https://wiki.cancerimagingarchive.net/display/Public/Lung+CT+Segmentation+Challenge+2017) ,
@@ -120,7 +120,7 @@ export RESULTS_FOLDER='/path/to/nnUNet_trained_models'
 Each of the lung/lesion directories for each task must contain a dataset.json file which is generated from the above commands.
 
 
-User can also refer to [this](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/dataset_conversion.md) link for any further reference for setting up their databases.
+User can also refer to (this)(https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/dataset_conversion.md) link for any further reference for setting up their databases.
 
 ## Preprocess the CT volumes:
 ```
@@ -144,5 +144,5 @@ User can run below inference command that requires inputs such as input CT volum
 python code/inference_lung_ct.py sample_volume.nii.gz  weights/lung_segment.model sample_volume_lung_preds.nii.gz --post_process
 ```
 
-Note: User has to make sure that the pickle files present in the 'weights/' directory should be in the same directory as the segmentation model files.These pickle files that are present along with the weight files in the 'weights' directory contain dataset and model characteristics  that the  training model used while training.
-In both of the commands above, user can provide an additional argument in the command line by just adding a flag '--post_process', if user wants postprocessing done to the combined prediction by the models. If user does not wish to post process the predicted mask, they can remove the argument '--post_process' from the command line.
+Note: User has to make sure that the pickle files present in the 'weights/' directory should be in the same directory as the segmentation model files. These pickle files that are present along with the weight files in the 'weights' directory contain dataset and model characteristics  that the  training model used while training.
+In the command line above, user can provide an additional argument in the command line by just adding a flag '--post_process', if user wants postprocessing done to the combined prediction by the models. If user does not wish to post process the predicted mask, they can remove the argument '--post_process' from the command line.
