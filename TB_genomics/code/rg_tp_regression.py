@@ -85,18 +85,18 @@ def preprocess_csv(args, r_df, g_df, t_df, dst_df, regi_df, out_folder):
     """
     global TOR, OUTCOME, RD, PS
 
-    if (args.gen[0] == 1 and args.rad[0] == 1) or args.same[0] == 1:
+    if (args.gen == [1] and args.rad == [1]) or args.same == [1]:
         # Merge two TB Portal Genomics
         df = pd.merge(g_df, t_df, how="inner", left_on='sra_id', right_on='sample')
         df.reset_index(drop=True, inplace=True)
         # Merge two TB Portal Genomics and Clinical based on condition_id
         df = pd.merge(df, r_df, how="inner", on="condition_id")
         df.reset_index(drop=True, inplace=True)
-    elif args.gen[0] == 1 and args.rad[0] != 1 and args.same[0] != 1:
+    elif args.gen == [1] and args.rad != [1] and args.same != [1]:
         # Merge two TB Portal Genomics
         df = pd.merge(g_df, t_df, how="inner", left_on='sra_id', right_on='sample')
         df.reset_index(drop=True, inplace=True)
-    elif args.gen[0] != 1 and args.rad[0] == 1 and args.same[0] != 1:
+    elif args.gen != [1] and args.rad == [1] and args.same != [1]:
         df = r_df
 
     # Merge DST
@@ -125,8 +125,10 @@ def preprocess_csv(args, r_df, g_df, t_df, dst_df, regi_df, out_folder):
     df = df[df[OUTCOME].isin(drop_values) == False]
 
     df = df[df[PS] >= 30]
+    if args.pdrug != [1]:
+        df = df[df[OUTCOME] == 'Cured']
 
-    if (args.gen[0] == 1 and args.rad[0] == 1) or args.same[0] == 1:
+    if (args.gen == [1] and args.rad == [1]) or args.same == [1]:
         # Preprocess: drop unuse columns
         df = df.drop(columns=CT_fields, axis=1)
         df = df.drop(columns=DST_merged_fields, axis=1)
@@ -136,7 +138,7 @@ def preprocess_csv(args, r_df, g_df, t_df, dst_df, regi_df, out_folder):
         df = df.drop(columns=RAD_merged_fields, axis=1)
         df = df.drop(columns=REGIMEN_merged_fields, axis=1)
 
-    if args.gen[0] != 1 and args.rad[0] == 1 and args.same[0] != 1:
+    if args.gen != [1] and args.rad == [1] and args.same != [1]:
         # Preprocess: drop unuse columns
         df = df.drop(columns=CT_fields, axis=1)
         df = df.drop(columns=TCS_fields, axis=1)
@@ -146,7 +148,7 @@ def preprocess_csv(args, r_df, g_df, t_df, dst_df, regi_df, out_folder):
         df = df.drop(columns=GENOMIC_fields, axis=1)
         df = df.drop(columns=REGIMEN_merged_fields, axis=1)
 
-    if args.gen[0] == 1 and args.rad[0] != 1 and args.same[0] != 1:
+    if args.gen == [1] and args.rad != [1] and args.same != [1]:
         # Preprocess: drop unuse columns
         df = df.drop(columns=DST_merged_fields, axis=1)
         df = df.drop(columns=REGIMEN_fields, axis=1)
@@ -159,7 +161,7 @@ def preprocess_csv(args, r_df, g_df, t_df, dst_df, regi_df, out_folder):
     df = df[df.columns.drop(list(df.filter(regex='bactec_')))]
     df = df.drop(columns=['test_date'], axis=1)
 
-    if args.rad[0] == 1 or args.same[0] == 1:
+    if args.rad == [1] or args.same == [1]:
         drop_values = ['Not Reported']
         for column_name in CXR_fields:
             df = df[df[column_name].isin(drop_values) == False]
@@ -200,7 +202,7 @@ def popular_drug(args, df, out_folder):
     df.to_csv(out_folder + '/popular_regimen.csv', index=True)
 
     """Confitional Probabilities"""
-    if args.rad[0] == 1 or args.same[0] == 1:
+    if args.rad == [1] or args.same == [1]:
         pdf = df.filter([OUTCOME, 'regimen_count', RD], axis=1)
         pdf.to_csv(out_folder + '/pdf.csv', index=True)
 
@@ -244,7 +246,7 @@ def encoding(args, df, r_df, g_df, v_df, out_folder):
     global TOR, OUTCOME, RD
     df = df.drop(columns=[OUTCOME], axis=1)
     df = df.drop(columns=[RD], axis=1)
-    if args.same[0] == 1 or args.rad[0] == 1:
+    if args.same == [1] or args.rad == [1]:
         df = df.drop(columns=['regimen_count'], axis=1)
 
     # Encoding
@@ -263,7 +265,7 @@ def encoding(args, df, r_df, g_df, v_df, out_folder):
     encoded_categ = encoded_categ.drop(columns=['index'], axis=1)
     df = pd.concat([df, encoded_categ], axis=1)
 
-    if args.rad[0] == 1:
+    if args.rad == [1]:
         df = df.fillna("None")
         df.replace(re.compile('.*Yes.*'), 'Yes', inplace=True)
         df.replace(re.compile('Upper.*'), 'No', inplace=True)
@@ -327,7 +329,7 @@ def encoding(args, df, r_df, g_df, v_df, out_folder):
         CXR_grp_fields.extend(['cavities', 'infiltrate', 'nodules'])
 
     """Prepare high cardinality gene variants features""" ### Individual variants
-    if args.gen[0] == 1:
+    if args.gen == [1]:
         temp = df['gene_snp_mutations'].str.get_dummies(', ').add_prefix('gene_snp_mutations'+'_')
         df = df.reset_index()
         temp = temp.reset_index()
@@ -337,7 +339,7 @@ def encoding(args, df, r_df, g_df, v_df, out_folder):
         df = df.drop(columns=['gene_snp_mutations'], axis=1)
 
     """Prepare high cardinality radiological features"""
-    if args.rad[0] == 1:
+    if args.rad == [1]:
         for item in CXR_grp_fields:
             temp = df[item].str.get_dummies(', ').add_prefix(item+'_')
             df = df.reset_index()
@@ -348,7 +350,7 @@ def encoding(args, df, r_df, g_df, v_df, out_folder):
             df = df.drop(columns=[item], axis=1)
 
     """Prepare high cardinality tbprofiler features"""
-    if args.gen[0] == 1:
+    if args.gen == [1]:
         for item in v_df.columns:
             if item != 'sample':
                 df.loc[df[item] >= 0.5, item] = 1.0
@@ -376,13 +378,13 @@ def encoding(args, df, r_df, g_df, v_df, out_folder):
     empty_cols = df.columns[(df == 0).all()]
     df = df.drop(columns=empty_cols, axis=1)
 
-    if args.same[0] == 1:
+    if args.same == [1]:
         if args.gen[0] != 1:
             for gene in TBP_variants_fields:
                 df = df[df.columns.drop(list(df.filter(regex=gene)))] #tbp
             df = df[df.columns.drop(list(df.filter(regex='gene')))]
             df = df.drop(columns=['sample'], axis=1)
-        if args.rad[0] != 1:
+        if args.rad != [1]:
             df = df.drop(columns=df.columns[1:26], axis=1)
 
     df.to_csv(out_folder + '/filtered.csv', index=True)
@@ -475,6 +477,9 @@ def main():
                                                              "popular drug combination",
                         default=[0],
                         help="Specify if users want to predict treatment period of specific popular drug combination")
+    parser.add_argument("-up", type=int, nargs=1, metavar="Include unpublished data",
+                        default=None,
+                        help="Specify if users want to include unpublished data.")
     parser.add_argument("-rp", type=str, nargs=1, metavar="Radiological csv file location",
                         default=['../data/TB_Portals_Patient_Cases_January_2022.csv'],
                         help="Path to radiological csv file. Default: ../data/TB_Portals_Patient_Cases_January_2022.csv")
@@ -490,30 +495,59 @@ def main():
     parser.add_argument("-regimenp", type=str, nargs=1, metavar="Regimen csv file location",
                         default=['../data/TB_Portals_Regimens_January_2022.csv'],
                         help="Path to TB Profiler csv file. Default: ../data/TB_Portals_Regimens_January_2022.csv")
+    parser.add_argument("-urp", type=str, nargs=1, metavar="Unpublished Radiological csv file location",
+                        default=['../data/unpublished/TB_Portals_Unpublished_Patient_Cases_January_2022.csv'],
+                        help="Path to radiological csv file. Default: ../data/unpublished/TB_Portals_Unpublished_Patient_Cases_January_2022.csv")
+    parser.add_argument("-ugp", type=str, nargs=1, metavar="Unpublished Genomic csv file location",
+                        default=['../data/unpublished/TB_Portals_Unpublished_Genomics_January_2022.csv'],
+                        help="Path to genomic csv file. Default: ../data/unpublished/TB_Portals_Unpublished_Genomics_January_2022.csv")
+    parser.add_argument("-udstp", type=str, nargs=1, metavar="Unpublished DST csv file location",
+                        default=['../data/unpublished/TB_Portals_Unpublished_DST_January_2022.csv'],
+                        help="Path to dst csv file. Default: ../data/unpublished/TB_Portals_Unpublished_DST_January_2022.csv")
+    parser.add_argument("-uregimenp", type=str, nargs=1, metavar="Unpublished Regimen csv file location",
+                        default=['../data/unpublished/TB_Portals_Unpublished_Regimens_January_2022.csv'],
+                        help="Path to regimen csv file. Default: ../data/unpublished/TB_Portals_Unpublished_Regimens_January_2022.csv")
     parser.add_argument("-resultp", type=str, nargs=1, metavar="results path",
                         default=r'../results/',
                         help="Results Path. Default:../results/")
     args = parser.parse_args()
 
-    if args.rad[0] == 1 and args.same[0] != 1:
+    if args.rad == [1] and args.same != [1]:
         radiological_file = args.rp[0]
         validate_file(radiological_file)
         r_df = pd.read_csv(radiological_file)
-        if args.gen[0] != 1:
+
+        if args.up == [1]:
+            unpub_radiological_file = args.urp[0]
+            validate_file(unpub_radiological_file)
+            ur_df = pd.read_csv(unpub_radiological_file)
+
+            # Merge radiological tb portal & unpublished
+            r_df = r_df.append(ur_df, ignore_index=True)
+
+        if args.gen != [1]:
             g_df = None
             t_df = None
-    if args.gen[0] == 1 and args.same[0] != 1:
+    if args.gen == [1] and args.same != [1]:
         genomic_file = args.gp[0]
         validate_file(genomic_file)
         g_df = pd.read_csv(genomic_file)
+
+        if args.up == [1]:
+            unpub_genomic_file = args.ugp[0]
+            validate_file(unpub_genomic_file)
+            ug_df = pd.read_csv(unpub_genomic_file)
+
+            # Merge genomic tb portal & unpublished
+            g_df = g_df.append(ug_df, ignore_index=True)
 
         tbp_file = args.tp[0]
         validate_file(tbp_file)
         t_df = pd.read_csv(tbp_file)
 
-        if args.rad[0] != 1:
+        if args.rad != [1]:
             r_df = None
-    if args.same[0] == 1:
+    if args.same == [1]:
         radiological_file = args.rp[0]
         validate_file(radiological_file)
         r_df = pd.read_csv(radiological_file)
@@ -522,9 +556,28 @@ def main():
         validate_file(genomic_file)
         g_df = pd.read_csv(genomic_file)
 
+        if args.up == [1]:
+            unpub_radiological_file = args.urp[0]
+            validate_file(unpub_radiological_file)
+            ur_df = pd.read_csv(unpub_radiological_file)
+
+            # Merge radiological tb portal & unpublished
+            r_df = r_df.append(ur_df, ignore_index=True)
+
+            unpub_genomic_file = args.ugp[0]
+            validate_file(unpub_genomic_file)
+            ug_df = pd.read_csv(unpub_genomic_file)
+
+            # Merge genomic tb portal & unpublished
+            g_df = g_df.append(ug_df, ignore_index=True)
+
         tbp_file = args.tp[0]
         validate_file(tbp_file)
         t_df = pd.read_csv(tbp_file)
+
+    if args.rad != [1] and args.gen != [1]:
+        print(INVALID_INPUT_MSG)
+        quit()
 
     dst_file = args.dstp[0]
     validate_file(dst_file)
@@ -534,10 +587,20 @@ def main():
     validate_file(regimen_file)
     regi_df = pd.read_csv(regimen_file)
 
+    if args.up == [1]:
+        unpub_dst_file = args.udstp[0]
+        validate_file(unpub_dst_file)
+        udst_df = pd.read_csv(unpub_dst_file)
 
-    if args.rad[0] != 1 and args.gen[0] != 1:
-        print(INVALID_INPUT_MSG)
-        quit()
+        # Merge radiological tb portal & unpublished
+        dst_df = dst_df.append(udst_df, ignore_index=True)
+
+        unpub_regimen_file = args.uregimenp[0]
+        validate_file(unpub_regimen_file)
+        uregi_df = pd.read_csv(unpub_regimen_file)
+
+        # Merge radiological tb portal & unpublished
+        regi_df = regi_df.append(uregi_df, ignore_index=True)
 
     now = datetime.datetime.now()
     out_folder = r'../results/' + now.strftime("%Y-%m-%d") + '/'
@@ -545,7 +608,7 @@ def main():
         os.makedirs(out_folder)
 
     df = preprocess_csv(args, r_df, g_df, t_df, dst_df, regi_df, out_folder)
-    if args.pdrug[0] == 1:
+    if args.pdrug == [1]:
         df = popular_drug(args, df, out_folder)
     df = encoding(args, df, r_df, g_df, t_df, out_folder)
 

@@ -64,7 +64,7 @@ def correlation(df, out_folder):
     Returns:
         None
     """
-    plt.rcParams['font.size'] = 4
+    plt.rcParams['font.size'] = 9
     corr = df.corr(method='pearson')#, min_periods=10)
     corr = corr.where(np.tril(np.ones(corr.shape)).astype(bool))
     im = Imshow(corr)
@@ -149,7 +149,7 @@ class Imshow(VizInputSquare):
         :param yticks_on: switch off the yticks and labels
 
         """
-
+        fontsize = 4
         data = self.df
         pylab.clf()
         cmap = colors.ListedColormap(
@@ -159,9 +159,9 @@ class Imshow(VizInputSquare):
         pylab.imshow(data, interpolation='nearest', aspect=aspect, cmap=cmap, norm=norm, **kargs)
 
         if fontsize_x == None:
-            fontsize_x = 4  # FIXME use default values
+            fontsize_x = fontsize
         if fontsize_y == None:
-            fontsize_y = 4  # FIXME use default values
+            fontsize_y = fontsize
 
         if yticks_on is True:
             pylab.yticks(range(0, len(data.index)), data.index,

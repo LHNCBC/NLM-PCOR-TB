@@ -126,18 +126,18 @@ def preprocess_csv(args, r_df, g_df, t_df, out_folder):
     """
     global TOR
 
-    if (args.gen != None and args.rad != None) or args.same != None:
+    if (args.gen == [1] and args.rad == [1]) or args.same == [1]:
         # Merge two TB Portal Genomics
         df = pd.merge(g_df, t_df, how="inner", left_on='sra_id', right_on='sample')
         df.reset_index(drop=True, inplace=True)
         # Merge two TB Portal Genomics and Clinical based on condition_id
         df = pd.merge(df, r_df, how="inner", on="condition_id")
         df.reset_index(drop=True, inplace=True)
-    elif args.gen != None and args.rad == None and args.same == None:
+    elif args.gen == [1] and args.rad != [1] and args.same != [1]:
         # Merge two TB Portal Genomics
         df = pd.merge(g_df, t_df, how="inner", left_on='sra_id', right_on='sample')
         df.reset_index(drop=True, inplace=True)
-    elif args.gen == None and args.rad != None and args.same == None:
+    elif args.gen != [1] and args.rad == [1] and args.same != [1]:
         df = r_df
 
     df.to_csv(out_folder + '/merged.csv', index=True)
@@ -148,7 +148,7 @@ def preprocess_csv(args, r_df, g_df, t_df, out_folder):
     drop_values = ['Poly DR', 'Pre-XDR']
     df = df[df[TOR].isin(drop_values) == False]
 
-    if (args.gen != None and args.rad != None) or args.same != None:
+    if (args.gen == [1] and args.rad == [1]) or args.same == [1]:
         # Keep new patients only
         df = df.loc[df['specimen_collection_date'] == 0]
         # Preprocess: drop unuse columns
@@ -159,7 +159,7 @@ def preprocess_csv(args, r_df, g_df, t_df, out_folder):
         df = df.drop(columns=CLINICAL_merged_fields, axis=1)
         df = df.drop(columns=['specimen_collection_date'], axis=1)
 
-    if args.gen == None and args.rad != None and args.same == None:
+    if args.gen != [1] and args.rad == [1] and args.same != [1]:
         # Preprocess: drop unuse columns
         df = df.drop(columns=CT_fields, axis=1)
         df = df.drop(columns=DST_fields, axis=1)
@@ -167,11 +167,11 @@ def preprocess_csv(args, r_df, g_df, t_df, out_folder):
         df = df.drop(columns=QURE_fields, axis=1)
         df = df.drop(columns=CLINICAL_fields, axis=1)
 
-    if args.gen != None and args.rad == None and args.same == None:
+    if args.gen == [1] and args.rad != [1] and args.same != [1]:
         # Preprocess: drop unuse columns
         df = df.drop(columns=GENOMIC_fields, axis=1)
 
-    if args.rad != None or args.same != None:
+    if args.rad == [1] or args.same == [1]:
         drop_values = ['Not Reported']
         for column_name in CXR_fields:
             df = df[df[column_name].isin(drop_values) == False]
@@ -210,7 +210,7 @@ def encoding(args, df, r_df, g_df, v_df, out_folder):
     encoded_categ = encoded_categ.drop(columns=['index'], axis=1)
     df = pd.concat([df, encoded_categ], axis=1)
 
-    if args.rad != None:
+    if args.rad == [1]:
         df = df.fillna("None")
         df.replace(re.compile('.*Yes.*'), 'Yes', inplace=True)
         df.replace(re.compile('Upper.*'), 'No', inplace=True)
@@ -274,7 +274,7 @@ def encoding(args, df, r_df, g_df, v_df, out_folder):
         CXR_grp_fields.extend(['cavities', 'infiltrate', 'nodules'])
 
     """Prepare high cardinality gene variants features""" ### Individual variants
-    if args.gen != None:
+    if args.gen == [1]:
         temp = df['gene_snp_mutations'].str.get_dummies(', ').add_prefix('gene_snp_mutations'+'_')
         df = df.reset_index()
         temp = temp.reset_index()
@@ -284,7 +284,7 @@ def encoding(args, df, r_df, g_df, v_df, out_folder):
         df = df.drop(columns=['gene_snp_mutations'], axis=1)
 
     """Prepare high cardinality radiological features"""
-    if args.rad != None:
+    if args.rad == [1]:
         for item in CXR_grp_fields:
             temp = df[item].str.get_dummies(', ').add_prefix(item+'_')
             df = df.reset_index()
@@ -295,7 +295,7 @@ def encoding(args, df, r_df, g_df, v_df, out_folder):
             df = df.drop(columns=[item], axis=1)
 
     """Prepare high cardinality tbprofiler features"""
-    if args.gen != None:
+    if args.gen == [1]:
         for item in v_df.columns:
             if item != 'sample':
                 df.loc[df[item] >= 0.5, item] = 1.0
@@ -323,13 +323,13 @@ def encoding(args, df, r_df, g_df, v_df, out_folder):
     empty_cols = df.columns[(df == 0).all()]
     df = df.drop(columns=empty_cols, axis=1)
 
-    if args.same != None:
-        if args.gen == None:
+    if args.same == [1]:
+        if args.gen[0] != 1:
             for gene in TBP_variants_fields:
                 df = df[df.columns.drop(list(df.filter(regex=gene)))] #tbp
             df = df[df.columns.drop(list(df.filter(regex='gene')))]
             df = df.drop(columns=['sample'], axis=1)
-        if args.rad == None:
+        if args.rad != [1]:
             df = df.drop(columns=df.columns[1:26], axis=1)
 
     df.to_csv(out_folder + '/filtered.csv', index=True)
@@ -460,6 +460,9 @@ def main():
                         default=None,
                         help="Specify if users want to use the same samples which have both radiological "
                              "and genomic information.")
+    parser.add_argument("-up", type=int, nargs=1, metavar="Include unpublished data",
+                        default=None,
+                        help="Specify if users want to include unpublished data.")
     parser.add_argument("-rp", type=str, nargs=1, metavar="Radiological csv file location",
                         default=['../data/TB_Portals_Patient_Cases_January_2022.csv'],
                         help="Path to radiological csv file. Default: ../data/TB_Portals_Patient_Cases_January_2022.csv")
@@ -469,43 +472,82 @@ def main():
     parser.add_argument("-tp", type=str, nargs=1, metavar="TB Profiler csv file location",
                         default=['../data/TB2258-variantDetail.csv'],
                         help="Path to TB Profiler csv file. Default: ../data/TB2258-variantDetail.csv")
+    parser.add_argument("-urp", type=str, nargs=1, metavar="Unpublished Radiological csv file location",
+                        default=['../data/unpublished/TB_Portals_Unpublished_Patient_Cases_January_2022.csv'],
+                        help="Path to radiological csv file. Default: ../data/unpublished/TB_Portals_Unpublished_Patient_Cases_January_2022.csv")
+    parser.add_argument("-ugp", type=str, nargs=1, metavar="Unpublished Genomic csv file location",
+                        default=['../data/unpublished/TB_Portals_Unpublished_Genomics_January_2022.csv'],
+                        help="Path to genomic csv file. Default: ../data/unpublished/TB_Portals_Unpublished_Genomics_January_2022.csv")
     parser.add_argument("-resultp", type=str, nargs=1, metavar="results path",
                         default=r'../results/',
                         help="Results Path. Default:../results/")
     args = parser.parse_args()
 
-    if args.rad != None and args.same == None:
+    if args.rad == [1] and args.same != [1]:
         radiological_file = args.rp[0]
         validate_file(radiological_file)
         r_df = pd.read_csv(radiological_file)
-        if args.gen == None:
+
+        if args.up == [1]:
+            unpub_radiological_file = args.urp[0]
+            validate_file(unpub_radiological_file)
+            ur_df = pd.read_csv(unpub_radiological_file)
+
+            # Merge radiomic tb portal & unpublished
+            r_df = r_df.append(ur_df, ignore_index=True)
+
+        if args.gen != [1]:
             g_df = None
             t_df = None
-    if args.gen != None and args.same == None:
+    if args.gen == [1] and args.same != [1]:
         genomic_file = args.gp[0]
         validate_file(genomic_file)
         g_df = pd.read_csv(genomic_file)
+
+        if args.up == [1]:
+            unpub_genomic_file = args.ugp[0]
+            validate_file(unpub_genomic_file)
+            ug_df = pd.read_csv(unpub_genomic_file)
+
+            # Merge radiomic tb portal & unpublished
+            g_df = g_df.append(ug_df, ignore_index=True)
 
         tbp_file = args.tp[0]
         validate_file(tbp_file)
         t_df = pd.read_csv(tbp_file)
 
-        if args.rad == None:
+        if args.rad != [1]:
             r_df = None
-    if args.same != None:
+    if args.same == [1]:
         radiological_file = args.rp[0]
         validate_file(radiological_file)
         r_df = pd.read_csv(radiological_file)
 
+        if args.up == [1]:
+            unpub_radiological_file = args.urp[0]
+            validate_file(unpub_radiological_file)
+            ur_df = pd.read_csv(unpub_radiological_file)
+
+            # Merge radiomic tb portal & unpublished
+            r_df = r_df.append(ur_df, ignore_index=True)
+
         genomic_file = args.gp[0]
         validate_file(genomic_file)
         g_df = pd.read_csv(genomic_file)
+
+        if args.up == [1]:
+            unpub_genomic_file = args.ugp[0]
+            validate_file(unpub_genomic_file)
+            ug_df = pd.read_csv(unpub_genomic_file)
+
+            # Merge radiomic tb portal & unpublished
+            g_df = g_df.append(ug_df, ignore_index=True)
 
         tbp_file = args.tp[0]
         validate_file(tbp_file)
         t_df = pd.read_csv(tbp_file)
 
-    if args.rad == None and args.gen == None:
+    if args.rad != [1] and args.gen != [1]:
         print(INVALID_INPUT_MSG)
         quit()
 
